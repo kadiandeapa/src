@@ -1,14 +1,21 @@
 <launch>
-    <node pkg="move_base" type="move_base" name="move_base" output="screen">
-        <rosparam file="$(find wpb_home_tutorials)/nav_lidar/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <node pkg="mbf_costmap_nav" type="mbf_costmap_nav" respawn="false" name="move_base_flex" output="screen">
+    <!--node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen"-->
+        <!--rosparam file="$(find wpb_home_tutorials)/nav_lidar/costmap_common_params.yaml" command="load" ns="global_costmap" />
         <rosparam file="$(find wpb_home_tutorials)/nav_lidar/costmap_common_params.yaml" command="load" ns="local_costmap" />
         <rosparam file="$(find wpb_home_tutorials)/nav_lidar/global_costmap_params.yaml" command="load" />
-        <rosparam file="$(find wpb_home_tutorials)/nav_lidar/local_costmap_params.yaml" command="load" />
-        <param name="base_global_planner" value="global_planner/GlobalPlanner" /> 
-        <param name="base_local_planner" value="pid_controller/PIDController" />
-        <rosparam file="$(find nav_pkg)/config/controller/pid_controller_params.yaml" command="load" />
+        <rosparam file="$(find wpb_home_tutorials)/nav_lidar/local_costmap_params.yaml" command="load" /-->
+        <!--param name="base_global_planner" value="global_planner/GlobalPlanner" /> 
+        <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" /-->
+        
+        <rosparam file="$(find nav_pkg)/config/zy_param/costmap_params.yaml" command="load" />
+        <rosparam file="$(find nav_pkg)/config/zy_param/move_base_flex_params.yaml" command="load" />
+        <rosparam file="$(find nav_pkg)/config/zy_param/teb_local_planner_params.yaml" command="load" />
     </node>
 
+    <!-- action goal bridge -->
+    <node pkg="xju_pnc" type="xju_mbf_bridge" respawn="false" name="xju_mbf_bridge" />
+    
     <!-- Run map server -->
     <node pkg="map_server" type="map_server" name="map_server" args="$(find wpr_simulation)/maps/map.yaml"/>
 
